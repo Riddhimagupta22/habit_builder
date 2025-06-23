@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1063274841212",
+    "project_id": "t-monument-448415-m3",
+    "storage_bucket": "t-monument-448415-m3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063274841212:android:ed750cf1c33c379fd835f9",
+        "android_client_info": {
+          "package_name": "com.example.habit_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdgpQtdGcy1pA8TRL5PEO8ezN-vYdKT98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
