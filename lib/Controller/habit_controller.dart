@@ -4,75 +4,90 @@ import 'package:get/get.dart';
 import 'package:habit_tracker/Models/habit_model.dart';
 
 class HabitController extends GetxController {
-  var HabitList = <HabitModel>[].obs;
+  var habitList = <HabitModel>[].obs;
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
 
-  Future addHabit(HabitModel habit) async {
+  Future<void> addHabit(HabitModel habit) async {
     final currentuser = _auth.currentUser;
 
     if (currentuser == null) {
       print("Cannot add Habit: No user is logged in");
-      return null;
+      return;
     }
+
     final data = habit.toMap();
     data['userId'] = currentuser.uid;
+
+    print("Final habit data being sent to Firestore: $data");
+
     try {
-      await _firestore.collection('habits').add(data);
-      print('Habits added Successfully');
+      final docRef = await _firestore.collection('habits').add(data);
+      print("Habit added with ID: ${docRef.id}");
       fetchHabit();
     } catch (e) {
-      print('Failed to add Habit: $e');
+      print('Firestore write failed: $e');
+    }
+  }
+  Future<void> updateHabit(HabitModel habit) async {
+    try {
+      await _firestore.collection('habits').doc(habit.id).update(habit.toMap());
+      fetchHabit();
+    } catch (e) {
+      print("Update Error: $e");
     }
   }
 
-  Future<void> fetchHabit() async {
-    final currentuser = _auth.currentUser;
-    if (currentuser == null) {
-      print("Cannot fetch Habit: No user is logged in");
-      return null;
+
+  void fetchHabit() {
+    final currentUser = _auth.currentUser;
+    if (currentUser == null) {
+       print("Cannot fetch Habits: No user is logged in");
+      return;
     }
 
-    {
-      try {
-        await _firestore
-            .collection('habits')
-            .where(currentuser.uid)
-            .snapshots()
-            .listen((snapshot) {
-          print("Fetched ${snapshot.docs.length} habits");
-          HabitList.value = snapshot.docs.map((doc) {
-            return HabitModel.fromMap(doc.id, doc.data());
-          }).toList();
-        });
-      } catch (e) {
-        print('Failed to fetch Habit: $e');
-      }
+    try {
+      _firestore
+          .collection('habits')
+          .where('userId', isEqualTo: currentUser.uid)
+          .snapshots()
+          .listen((snapshot) {
+        print("Fetched ${snapshot.docs.length} habits");
+        habitList.value = snapshot.docs.map((doc) {
+          return HabitModel.fromMap(doc.id, doc.data());
+        }).toList();
+      });
+    } catch (e) {
+      print('Failed to fetch Habits: $e');
     }
   }
 
-  void removeHabit(String habitId) async {
-    final currentuser = _auth.currentUser;
+  // Remove Habit
+  Future<void> removeHabit(String habitId) async {
+    final currentUser = _auth.currentUser;
 
-    if (currentuser == null) {
-      print("Cannot add Habit: No user is logged in");
-      return null;
+    if (currentUser == null) {
+      print("Cannot remove Habit: No user is logged in");
+      return;
     }
+
     try {
       await _firestore.collection('habits').doc(habitId).delete();
+      print('Habit deleted successfully');
     } catch (e) {
       print('Failed to delete Habit: $e');
     }
   }
 
-  Future<void> markedDates(String habitId, String date) async {
+  // Mark Completion Dates
+  Future<void> markDateAsCompleted(String habitId, String date) async {
     try {
       await _firestore.collection('habits').doc(habitId).update({
         'completedDates': FieldValue.arrayUnion([date])
       });
       print('Date $date marked as completed for habit $habitId');
     } catch (e) {
-      print('Failed to mark habit as completed: $e');
+      print('Failed to mark date as completed: $e');
     }
   }
 }

@@ -2,84 +2,65 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import '../../Controller/habit_controller.dart';
-import '../../Models/habit_model.dart';
+
+import '../../../Controller/habit_controller.dart';
+import '../../../Models/habit_model.dart';
 import '../../Comman/Wiget/custom_datepicker.dart';
 import '../../Comman/Wiget/custom_rowfield.dart';
 import '../../Comman/Wiget/label_text.dart';
 import '../../Comman/Wiget/text_cont.dart';
 
-class AddHabit extends StatefulWidget {
-  const AddHabit({super.key});
+class EditHabit extends StatefulWidget {
+  final HabitModel habit;
+
+  const EditHabit({super.key, required this.habit});
 
   @override
-  State<AddHabit> createState() => _AddHabitState();
+  State<EditHabit> createState() => _EditHabitState();
 }
 
-class _AddHabitState extends State<AddHabit> {
-  final _dateController = TextEditingController();
+class _EditHabitState extends State<EditHabit> {
   final _goalController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _dateController = TextEditingController();
   final _periodController = TextEditingController();
   final _habitTypeController = TextEditingController();
   bool _isReminderEnabled = false;
 
-  final HabitController habitController = Get.put(HabitController());
+  final habitController = Get.find<HabitController>();
 
   @override
-  void dispose() {
-    _dateController.dispose();
-    _goalController.dispose();
-    _descriptionController.dispose();
-    _periodController.dispose();
-    _habitTypeController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _goalController.text = widget.habit.name;
+    _descriptionController.text = widget.habit.description;
+    _dateController.text = DateFormat.yMMMMd().format(widget.habit.startdate);
+    _periodController.text = widget.habit.period;
+    _habitTypeController.text = widget.habit.habitType;
+    _isReminderEnabled = widget.habit.isReminderEnabled;
   }
 
-  void _createHabit() async {
-    print("Create button tapped");
-
-    final goal = _goalController.text.trim();
-    final description = _descriptionController.text.trim();
-    final dateText = _dateController.text.trim();
-    final period = _periodController.text.trim();
-    final habitType = _habitTypeController.text.trim();
-
-    if (goal.isEmpty ||
-        description.isEmpty ||
-        dateText.isEmpty ||
-        period.isEmpty ||
-        habitType.isEmpty) {
-      print("Missing fields");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please fill all the fields")),
-      );
-      return;
-    }
-
+  void _updateHabit() async {
     try {
-      final parsedDate = DateFormat('yyyy-MM-dd').parse(dateText);
-
-      final newHabit = HabitModel(
-        id: '',
-        name: goal,
-        description: description,
-        startdate: parsedDate,
-        period: period,
-        habitType: habitType,
+      final updatedHabit = HabitModel(
+        id: widget.habit.id,
+        name: _goalController.text.trim(),
+        description: _descriptionController.text.trim(),
+        startdate: DateFormat.yMMMMd().parse(_dateController.text.trim()),
+        period: _periodController.text.trim(),
+        habitType: _habitTypeController.text.trim(),
         isReminderEnabled: _isReminderEnabled,
       );
 
-      print("Habit data to be added: ${newHabit.toMap()}");
-
-      await habitController.addHabit(newHabit);
-
-      print("Habit creation successful, navigating to Homepage");
+      await habitController.updateHabit(updatedHabit);
       Get.back();
-    } catch (e) {
-      print("Error parsing date or adding habit: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Something went wrong")),
+        const SnackBar(content: Text("Habit updated")),
+      );
+    } catch (e) {
+      print("Update error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Failed to update habit")),
       );
     }
   }
@@ -88,7 +69,7 @@ class _AddHabitState extends State<AddHabit> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(30),
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.75,
       decoration: BoxDecoration(
         color: const Color.fromRGBO(252, 252, 255, 1),
         borderRadius: BorderRadius.circular(16),
@@ -99,7 +80,7 @@ class _AddHabitState extends State<AddHabit> {
           children: [
             Center(
               child: Text(
-                "Create New Habit Goal",
+                "Edit Habit Goal",
                 style: GoogleFonts.nunito(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -115,7 +96,7 @@ class _AddHabitState extends State<AddHabit> {
             const SizedBox(height: 16),
 
             // Your Goal
-            Label("Your Goal"),
+            const Label("Your Goal"),
             const SizedBox(height: 10),
             TextCont(
               maxLine: 1,
@@ -125,7 +106,7 @@ class _AddHabitState extends State<AddHabit> {
             const SizedBox(height: 16),
 
             // Description
-            Label("Description"),
+            const Label("Description"),
             const SizedBox(height: 10),
             TextCont(
               maxLine: 3,
@@ -135,7 +116,7 @@ class _AddHabitState extends State<AddHabit> {
             const SizedBox(height: 16),
 
             // Date
-            Label("Date"),
+            const Label("Date"),
             const SizedBox(height: 10),
             CustomDatePicker(controller: _dateController),
 
@@ -187,7 +168,7 @@ class _AddHabitState extends State<AddHabit> {
             ),
             const SizedBox(height: 45),
             GestureDetector(
-              onTap: _createHabit,
+              onTap: _updateHabit,
               child: Container(
                 width: double.infinity,
                 height: 50,
@@ -204,7 +185,7 @@ class _AddHabitState extends State<AddHabit> {
                 ),
                 child: const Center(
                   child: Text(
-                    'Create New',
+                    'Update Habit',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -213,7 +194,7 @@ class _AddHabitState extends State<AddHabit> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

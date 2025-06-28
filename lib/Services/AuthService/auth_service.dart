@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../Modules/Dashboard/view/homepage.dart';
+import '../../Comman/nav_bar.dart';
 import 'docdata.dart';
 
 
@@ -15,7 +15,7 @@ class AuthService {
         password: data['password']!,
       );
       await docdata.addUser(data);
-      Get.off(Homepage());
+      Get.off(NavBar());
       print("User created: ${credential.user?.uid}");
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -32,7 +32,7 @@ class AuthService {
         email: data['email']!,
         password: data['password']!,
       );
-      Get.off(Homepage());
+      Get.off(NavBar());
       await docdata.addUser(data);
       print("Login successful: ${credential.user?.uid}");
 

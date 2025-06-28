@@ -1,30 +1,40 @@
-class HabitModel{
-  String id;
-  String name;
-  String description;
-   List <String> completeddates;
-  
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class HabitModel {
+  String id, name, description, period, habitType;
+  DateTime startdate;
+  bool isReminderEnabled;
+
   HabitModel({
     required this.id,
     required this.name,
     required this.description,
-    required this.completeddates,
-    
-});
-  
-  Map<String,dynamic> toMap() => {
+    required this.startdate,
+    required this.period,
+    required this.habitType,
+    required this.isReminderEnabled,
+  });
+
+  Map<String, dynamic> toMap() => {
+    'id': id,
     'name': name,
     'description': description,
-    'completeddates': completeddates,
-    
+    'startdate': Timestamp.fromDate(startdate),
+    'period': period,
+    'habitType': habitType,
+    'isReminderEnabled': isReminderEnabled,
   };
 
-  factory HabitModel.fromMap(String id,Map<String,dynamic> map ) {
+  factory HabitModel.fromMap(String id, Map<String, dynamic> map) {
     return HabitModel(
       id: id,
-      name: map['name'],
-      description: map['description'],
-      completeddates: map['completeddates'],
+      name: map['name'] ?? '',
+      description: map['description'] ?? '',
+      startdate: (map['startdate'] as Timestamp).toDate(),
+
+      period: map['period'] ?? '',
+      habitType: map['habitType'] ?? '',
+      isReminderEnabled: map['isReminderEnabled'] ?? false,
     );
   }
 }
