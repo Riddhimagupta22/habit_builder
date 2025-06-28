@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         scaffoldBackgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromRGBO(255, 92, 0, 1)),
         useMaterial3: true,
       ),
       home: SignupScreen(),
