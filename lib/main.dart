@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:habit_tracker/Comman/splash_screen.dart';
 import 'package:habit_tracker/Controller/habit_controller.dart';
 import 'package:habit_tracker/Services/notification_services.dart';
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Color.fromRGBO(255, 92, 0, 1)),
         useMaterial3: true,
       ),
-      home: SignupScreen(),
+      home: Splash(),
     );
   }
 }

@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/Models/habit_model.dart';
+import 'package:habit_tracker/Services/getstorag_service.dart';
 
 import 'analytics_controller.dart';
 
@@ -63,9 +66,11 @@ class HabitController extends GetxController {
           return HabitModel.fromMap(doc.id, doc.data());
         }).toList();
       });
+      HabitoftheDay();
     } catch (e) {
       print('Failed to fetch Habits: $e');
     }
+
   }
 
   //Remove Habit
@@ -85,15 +90,13 @@ class HabitController extends GetxController {
     }
   }
 
-  //Toggle Completion 
+  //Toggle Completion
   void toggleHabitCompletion(String habitId, bool isCompleted) async {
     final index = habitList.indexWhere((habit) => habit.id == habitId);
     if (index != -1) {
-
       habitList[index].isCompleted = isCompleted;
       habitList.refresh();
 
-     
       try {
         await _firestore.collection('habits').doc(habitId).update({
           'isCompleted': isCompleted,
@@ -103,9 +106,23 @@ class HabitController extends GetxController {
         print('Failed to update isCompleted in Firestore: $e');
       }
 
-
       DateTime today = DateTime.now();
       _streakController.toggleStreakForDate(today, isCompleted: isCompleted);
     }
   }
+
+  // getStorage
+  void HabitoftheDay() {
+    final lastupdate = HabitStorage().getLastUpdated();
+    final current = DateTime.now();
+    if (lastupdate == null || !isSameDay(current, lastupdate)) {
+      if (habitList.isNotEmpty) {
+        final random = habitList[Random().nextInt(habitList.length)];
+        HabitStorage().saveHabitofDay(random.name, random.id);
+      }
+    }
+  }
+
+  bool isSameDay(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
 }

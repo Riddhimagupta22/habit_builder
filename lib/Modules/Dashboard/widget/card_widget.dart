@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:habit_tracker/Services/getstorag_service.dart';
 import '../../../Models/quote_model.dart';
 import '../../../Services/quote_service.dart';
 
@@ -28,60 +29,80 @@ class _CardWidgetState extends State<CardWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final title = HabitStorage().getHabitTitle() ?? "No Habit Selected";
+
     return Center(
       child: Container(
-        height: 220,
-        width: 320,
+        height: 250,
+        width: 340,
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: const Color.fromRGBO(47, 125, 121, 0.3),
-              offset: const Offset(0, 6),
-              blurRadius: 12,
-              spreadRadius: 6,
-            )
+              color: Colors.orange.withOpacity(0.4),
+              blurRadius: 20,
+              offset: const Offset(0, 9),
+            ),
           ],
           gradient: const LinearGradient(
             colors: [
-              Color.fromRGBO(255, 92, 0, 1),
-              Color.fromRGBO(255, 164, 80, 1),
+              Color(0xFFFF5E00),
+              Color(0xFFFFB267),
             ],
-            begin: Alignment.bottomRight,
-            end: Alignment.bottomLeft,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: Colors.white30, width: 1.5),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 20),
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: quote == null
-                  ? const CircularProgressIndicator(color: Colors.white)
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          '"${quote!.q}"',
-                          style: GoogleFonts.nunito(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          '- ${quote!.a}',
-                          style: GoogleFonts.nunito(
-                            fontSize: 13,
-                            fontStyle: FontStyle.italic,
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ],
-                    ),
+            const Icon(Icons.auto_awesome, size: 25, color: Colors.white),
+            const SizedBox(height: 10),
+            Text(
+              'Habit of the Day',
+              style: GoogleFonts.nunito(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 1.2,
+              ),
             ),
+            const SizedBox(height: 5),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.nunito(
+                fontSize: 18,
+                color: Color(0xFFFFFFFFED),
+              ),
+            ),
+            const SizedBox(height: 20),
+            quote == null
+                ? const CircularProgressIndicator(color: Colors.white)
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        '"${quote!.q}"',
+                        style: GoogleFonts.nunito(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+
+                      Text(
+                        '- ${quote!.a}',
+                        style: GoogleFonts.nunito(
+                          fontSize: 12,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.white70,
+                        ),
+                      ),
+                    ],
+                  ),
           ],
         ),
       ),

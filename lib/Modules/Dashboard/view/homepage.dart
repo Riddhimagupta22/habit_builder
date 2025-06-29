@@ -51,12 +51,22 @@ class _HomepageState extends State<Homepage> {
               // Date
               Padding(
                 padding: const EdgeInsets.only(top: 50),
-                child: Text(
-                  DateFormat.yMMMMd().format(DateTime.now()),
-                  style: GoogleFonts.nunito(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      DateFormat.yMMMMd().format(DateTime.now()),
+                      style: GoogleFonts.nunito(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    CircleAvatar(
+                      backgroundImage: AssetImage(
+                        "Assets/image/714-removebg-preview.png",
+                      ),
+                    )
+                  ],
                 ),
               ),
 
@@ -65,7 +75,7 @@ class _HomepageState extends State<Homepage> {
               const SizedBox(height: 20),
 
               CardWidget(),
-              const SizedBox(height: 30),
+              const SizedBox(height: 40),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,12 +96,14 @@ class _HomepageState extends State<Homepage> {
                 if (habits.isEmpty) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 120, vertical: 310),
-                    child: Text(
-                      "No habits for today.",
-                      style: GoogleFonts.nunito(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
+                        horizontal: 60, vertical: 100),
+                    child: Center(
+                      child: Text(
+                        "No habits for today.",
+                        style: GoogleFonts.nunito(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   );

@@ -3,8 +3,8 @@ import 'package:get_storage/get_storage.dart';
 class HabitStorage {
   final box = GetStorage();
 
-  void saveHabitofDay(String title, String id) {
-    box.write('habitTitle', title);
+  void saveHabitofDay(String name, String id) {
+    box.write('habitTitle', name);
     box.write('habitId', id);
     box.write('lastUpdated', DateTime.now());}
 
