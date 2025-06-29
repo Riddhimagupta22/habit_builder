@@ -7,6 +7,5 @@ class FirebaseApi {
     await _messaging.requestPermission();
     final token = await _messaging.getToken();
     print('FCM Token: $token');
-
   }
 }

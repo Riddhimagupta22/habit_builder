@@ -11,7 +11,6 @@ import 'Controller/analytics_controller.dart';
 import 'Modules/Auth/signup_screen.dart';
 import 'firebase_options.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -25,25 +24,24 @@ void main() async {
     persistenceEnabled: true,
   );
 
-
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        scaffoldBackgroundColor: Color.fromRGBO(255, 255, 255, 1),
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromRGBO(255, 92, 0, 1)),
+        scaffoldBackgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromRGBO(255, 92, 0, 1)),
         useMaterial3: true,
       ),
-      home: Splash(),
+      home: const Splash(),
     );
   }
 }

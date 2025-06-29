@@ -43,8 +43,8 @@ class Chart extends StatelessWidget {
                 ),
               ),
             ),
-            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
           ),
           barGroups: List.generate(7, (index) {
             final label = dayLabels[index];
@@ -56,8 +56,8 @@ class Chart extends StatelessWidget {
                 BarChartRodData(
                   toY: count.toDouble(),
                   color: count == 0
-                      ? Color.fromRGBO(255, 217, 188, 1)
-                      : Color.fromRGBO(255, 148, 82, 1),
+                      ? const Color.fromRGBO(255, 217, 188, 1)
+                      : const Color.fromRGBO(255, 148, 82, 1),
                   width: 16,
                   borderRadius: BorderRadius.circular(6),
                 ),

@@ -15,7 +15,11 @@ class _NavBarState extends State<NavBar> {
   final PageController _pageViewController = PageController();
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [Homepage(), Progess(), Setting()];
+  final List<Widget> _pages = [
+    const Homepage(),
+    const Progess(),
+    const Setting()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class _NavBarState extends State<NavBar> {
     return Scaffold(
       body: PageView(
         controller: _pageViewController,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         onPageChanged: (index) {
           setState(() {
             _selectedIndex = index;
@@ -52,8 +56,8 @@ class _NavBarState extends State<NavBar> {
             fontWeight: FontWeight.w500,
             fontSize: fontSize,
           ),
-          selectedItemColor: Color.fromRGBO(255, 164, 80, 1),
-          unselectedItemColor: Color.fromRGBO(131, 131, 131, 1),
+          selectedItemColor: const Color.fromRGBO(255, 164, 80, 1),
+          unselectedItemColor: const Color.fromRGBO(131, 131, 131, 1),
           currentIndex: _selectedIndex,
           type: BottomNavigationBarType.fixed,
           onTap: (index) {
@@ -62,7 +66,7 @@ class _NavBarState extends State<NavBar> {
             });
             _pageViewController.jumpToPage(index);
           },
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home_outlined),
               label: 'Home',

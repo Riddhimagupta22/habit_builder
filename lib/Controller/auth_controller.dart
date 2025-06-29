@@ -22,7 +22,6 @@ class AuthController extends GetxController {
     return null;
   }
 
-
   String? validatePassword(String? value) {
     if (value!.isEmpty) {
       return 'Please enter a password';

@@ -25,7 +25,6 @@ class Progess extends StatelessWidget {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
       ),
-
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

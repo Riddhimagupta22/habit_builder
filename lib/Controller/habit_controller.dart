@@ -70,7 +70,6 @@ class HabitController extends GetxController {
     } catch (e) {
       print('Failed to fetch Habits: $e');
     }
-
   }
 
   //Remove Habit

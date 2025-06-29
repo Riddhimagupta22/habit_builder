@@ -75,7 +75,7 @@ class _CardWidgetState extends State<CardWidget> {
               textAlign: TextAlign.center,
               style: GoogleFonts.nunito(
                 fontSize: 18,
-                color: Color(0xFFFFFFFFED),
+                color: const Color(0xFFFFFFFFED),
               ),
             ),
             const SizedBox(height: 20),
@@ -92,7 +92,6 @@ class _CardWidgetState extends State<CardWidget> {
                           color: Colors.white,
                         ),
                       ),
-
                       Text(
                         '- ${quote!.a}',
                         style: GoogleFonts.nunito(

@@ -61,7 +61,7 @@ class _HomepageState extends State<Homepage> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    CircleAvatar(
+                    const CircleAvatar(
                       backgroundImage: AssetImage(
                         "Assets/image/714-removebg-preview.png",
                       ),
@@ -74,7 +74,7 @@ class _HomepageState extends State<Homepage> {
               const UserWidget(),
               const SizedBox(height: 20),
 
-              CardWidget(),
+              const CardWidget(),
               const SizedBox(height: 40),
 
               Row(

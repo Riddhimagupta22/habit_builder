@@ -2,18 +2,14 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class StreakController extends GetxController {
-
   final RxMap<DateTime, int> streakData = <DateTime, int>{}.obs;
-
 
   void toggleStreakForDate(DateTime date, {bool isCompleted = true}) {
     final normalized = _normalizeDate(date);
 
     if (isCompleted) {
-
       streakData[normalized] = (streakData[normalized] ?? 0) + 1;
     } else {
-
       if (streakData.containsKey(normalized)) {
         final updated = (streakData[normalized]! - 1).clamp(0, 10);
         if (updated == 0) {
@@ -24,7 +20,6 @@ class StreakController extends GetxController {
       }
     }
   }
-
 
   void resetStreak(DateTime date) {
     final normalized = _normalizeDate(date);
@@ -41,10 +36,10 @@ class StreakController extends GetxController {
     }
   }
 
-
   Map<String, int> getWeeklyCompletionData(List<String> completionDates) {
     final now = DateTime.now();
-    final last7Days = List.generate(7, (i) => now.subtract(Duration(days: 6 - i)));
+    final last7Days =
+        List.generate(7, (i) => now.subtract(Duration(days: 6 - i)));
 
     final Map<String, int> weeklyData = {
       'Mon': 0,

@@ -46,30 +46,27 @@ class UserWidget extends StatelessWidget {
         final userData = snapshot.data!.data() as Map<String, dynamic>;
         final username = userData['username'] ?? 'User';
 
-        return
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Hello, ',
-                    style: GoogleFonts.nunito(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black,
-                    ),
-                  ),
-                  TextSpan(
-                    text: username,
-                    style: GoogleFonts.nunito(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w700,
-                        color: Color.fromRGBO(255, 92, 0, 1)),
-                  ),
-                ],
+        return RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Hello, ',
+                style: GoogleFonts.nunito(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
               ),
-            );
-
-
+              TextSpan(
+                text: username,
+                style: GoogleFonts.nunito(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w700,
+                    color: const Color.fromRGBO(255, 92, 0, 1)),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
