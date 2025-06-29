@@ -6,9 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:habit_tracker/Comman/splash_screen.dart';
 import 'package:habit_tracker/Controller/habit_controller.dart';
 import 'package:habit_tracker/Services/notification_services.dart';
-
 import 'Controller/analytics_controller.dart';
-import 'Modules/Auth/signup_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {

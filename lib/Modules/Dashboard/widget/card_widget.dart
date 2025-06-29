@@ -33,15 +33,15 @@ class _CardWidgetState extends State<CardWidget> {
 
     return Center(
       child: Container(
-        height: 250,
+        height: 260,
         width: 340,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.orange.withOpacity(0.4),
-              blurRadius: 20,
-              offset: const Offset(0, 9),
+              color: Colors.orange.withOpacity(0.2),
+              blurRadius: 10,
+              offset: const Offset(0, 1),
             ),
           ],
           gradient: const LinearGradient(
