@@ -24,19 +24,19 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(top: 55.0, left: 40, right: 40),
+            padding: const EdgeInsets.only(top: 45.0, left: 25, right: 25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TitleWidget(
                   title: "Log In",
                   label: "Sign Up",
-                   OnTap: () => Get.to(() =>  SignupScreen()),
+                  OnTap: () => Get.to(() => SignupScreen()),
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 40),
                 Container(
                   width: screenWidth * 0.95,
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(18),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
@@ -140,7 +140,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
                         Align(
                           alignment: Alignment.centerRight,
                           child: TextButton(
@@ -163,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       _authController.submitLoginForm(context);
                                     },
                               child: Container(
-                                height: 50,
+                                height: 45,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(

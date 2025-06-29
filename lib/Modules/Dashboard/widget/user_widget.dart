@@ -23,7 +23,10 @@ class UserWidget extends StatelessWidget {
     }
 
     return StreamBuilder<DocumentSnapshot>(
-      stream: FirebaseFirestore.instance.collection('users').doc(userId).snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const SizedBox(); // Or a loading spinner
@@ -43,31 +46,26 @@ class UserWidget extends StatelessWidget {
         final userData = snapshot.data!.data() as Map<String, dynamic>;
         final username = userData['username'] ?? 'User';
 
-        return Padding(
-          padding: const EdgeInsets.only(left: 20.0),
-          child: RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: 'Hello, ',
-                  style: GoogleFonts.nunito(
+        return RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: 'Hello, ',
+                style: GoogleFonts.nunito(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
+              TextSpan(
+                text: username,
+                style: GoogleFonts.nunito(
                     fontSize: 25,
                     fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
-                ),
-                TextSpan(
-                  text: username,
-                  style: GoogleFonts.nunito(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w700,
-                    color: Color.fromRGBO(255, 92, 0, 1)
-                  ),
-                ),
-              ],
-            ),
-          )
-
+                    color: Color.fromRGBO(255, 92, 0, 1)),
+              ),
+            ],
+          ),
         );
       },
     );

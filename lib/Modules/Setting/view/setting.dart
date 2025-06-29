@@ -13,10 +13,7 @@ class Setting extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "Setting",
-          style: GoogleFonts.nunito(
-            fontWeight: FontWeight.w700,
-            fontSize: 29
-          ),
+          style: GoogleFonts.nunito(fontWeight: FontWeight.w700, fontSize: 29),
         ),
         automaticallyImplyLeading: false,
         backgroundColor: const Color.fromRGBO(255, 255, 255, 1),

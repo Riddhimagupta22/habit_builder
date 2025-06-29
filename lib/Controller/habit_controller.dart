@@ -3,11 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:habit_tracker/Models/habit_model.dart';
 
+import 'analytics_controller.dart';
+
 class HabitController extends GetxController {
   var habitList = <HabitModel>[].obs;
   final _firestore = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
+  final _streakController = Get.find<StreakController>();
 
+  //Add Habit
   Future<void> addHabit(HabitModel habit) async {
     final currentuser = _auth.currentUser;
 
@@ -29,7 +33,9 @@ class HabitController extends GetxController {
       print('Firestore write failed: $e');
     }
   }
-  Future<void> updateHabit(HabitModel habit) async {
+
+  //Update Habit
+  Future<void> editHabit(HabitModel habit) async {
     try {
       await _firestore.collection('habits').doc(habit.id).update(habit.toMap());
       fetchHabit();
@@ -38,11 +44,11 @@ class HabitController extends GetxController {
     }
   }
 
-
+  //Fetch Habits
   void fetchHabit() {
     final currentUser = _auth.currentUser;
     if (currentUser == null) {
-       print("Cannot fetch Habits: No user is logged in");
+      print("Cannot fetch Habits: No user is logged in");
       return;
     }
 
@@ -62,7 +68,7 @@ class HabitController extends GetxController {
     }
   }
 
-  // Remove Habit
+  //Remove Habit
   Future<void> removeHabit(String habitId) async {
     final currentUser = _auth.currentUser;
 
@@ -79,15 +85,27 @@ class HabitController extends GetxController {
     }
   }
 
-  // Mark Completion Dates
-  Future<void> markDateAsCompleted(String habitId, String date) async {
-    try {
-      await _firestore.collection('habits').doc(habitId).update({
-        'completedDates': FieldValue.arrayUnion([date])
-      });
-      print('Date $date marked as completed for habit $habitId');
-    } catch (e) {
-      print('Failed to mark date as completed: $e');
+  //Toggle Completion 
+  void toggleHabitCompletion(String habitId, bool isCompleted) async {
+    final index = habitList.indexWhere((habit) => habit.id == habitId);
+    if (index != -1) {
+
+      habitList[index].isCompleted = isCompleted;
+      habitList.refresh();
+
+     
+      try {
+        await _firestore.collection('habits').doc(habitId).update({
+          'isCompleted': isCompleted,
+        });
+        print('Habit completion updated in Firestore');
+      } catch (e) {
+        print('Failed to update isCompleted in Firestore: $e');
+      }
+
+
+      DateTime today = DateTime.now();
+      _streakController.toggleStreakForDate(today, isCompleted: isCompleted);
     }
   }
 }

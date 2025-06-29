@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:habit_tracker/Modules/Setting/view/setting.dart';
+import 'package:habit_tracker/Modules/Progress/view/progess.dart';
 import '../Modules/Dashboard/view/homepage.dart';
 
 class NavBar extends StatefulWidget {
@@ -14,14 +15,14 @@ class _NavBarState extends State<NavBar> {
   final PageController _pageViewController = PageController();
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [Homepage(), Placeholder(), Setting()];
+  final List<Widget> _pages = [Homepage(), Progess(), Setting()];
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
     final iconSize = screenWidth * 0.065;
-    final navbarHeight = screenWidth * 0.23;
+    final navbarHeight = screenWidth * 0.2;
     final fontSize = screenWidth * 0.03;
 
     return Scaffold(
@@ -67,8 +68,8 @@ class _NavBarState extends State<NavBar> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart),
-              label: 'Statistics',
+              icon: Icon(Icons.show_chart),
+              label: 'Progess',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.settings),

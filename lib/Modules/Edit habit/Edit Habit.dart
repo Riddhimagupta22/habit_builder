@@ -52,7 +52,7 @@ class _EditHabitState extends State<EditHabit> {
         isReminderEnabled: _isReminderEnabled,
       );
 
-      await habitController.updateHabit(updatedHabit);
+      await habitController.editHabit(updatedHabit);
       Get.back();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Habit updated")),

@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:habit_tracker/Controller/habit_controller.dart';
+import 'package:habit_tracker/Services/notification_services.dart';
 
+import 'Controller/analytics_controller.dart';
 import 'Modules/Auth/signup_screen.dart';
 import 'firebase_options.dart';
 
@@ -14,7 +16,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseApi().initNotification();
   await GetStorage.init();
+  Get.put(StreakController());
   Get.put(HabitController());
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,

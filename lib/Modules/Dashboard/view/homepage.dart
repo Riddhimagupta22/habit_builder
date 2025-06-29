@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:habit_tracker/Modules/Dashboard/widget/card_widget.dart';
 import 'package:habit_tracker/Modules/Dashboard/widget/user_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:habit_tracker/Controller/habit_controller.dart';
@@ -26,7 +27,6 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromRGBO(95, 227, 148, 1),
         onPressed: () async {
@@ -43,47 +43,44 @@ class _HomepageState extends State<Homepage> {
         child: const Icon(Icons.add),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Date display
-            Padding(
-              padding: const EdgeInsets.only(top: 100, left: 20),
-              child: Text(
-                DateFormat.yMMMMd().format(DateTime.now()),
-                style: GoogleFonts.nunito(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Date
+              Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: Text(
+                  DateFormat.yMMMMd().format(DateTime.now()),
+                  style: GoogleFonts.nunito(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
 
-            // Greeting
-            UserWidget(),
+              // Greeting Widget
+              const UserWidget(),
+              const SizedBox(height: 20),
 
-            const SizedBox(height: 20),
+              CardWidget(),
+              const SizedBox(height: 30),
 
-            // Section title
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Today\'s habits',
+                  Text("Today's habits",
                       style: GoogleFonts.nunito(
                           fontWeight: FontWeight.w600, fontSize: 21)),
                   Text('See all',
                       style: GoogleFonts.nunito(
-                          color: Color.fromRGBO(255, 92, 0, 1))),
+                          color: const Color.fromRGBO(255, 92, 0, 1))),
                 ],
               ),
-            ),
 
-            const SizedBox(height: 10),
-            // list
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Obx(() {
+              // Habit List
+              Obx(() {
                 final habits = habitController.habitList;
 
                 if (habits.isEmpty) {
@@ -110,12 +107,36 @@ class _HomepageState extends State<Homepage> {
                     return Card(
                       elevation: 3,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      margin: const EdgeInsets.symmetric(vertical: 8),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      color: habit.isCompleted
+                          ? const Color.fromRGBO(255, 244, 229, 1)
+                          : Colors.white,
                       child: ListTile(
-                        title: Text(habit.name),
+                        //Checkbox
+                        leading: Checkbox(
+                          value: habit.isCompleted,
+                          onChanged: (value) {
+                            habitController.toggleHabitCompletion(
+                                habit.id, value!);
+                          },
+                          activeColor:
+                              const Color.fromRGBO(255, 92, 0, 1), // orange
+                        ),
+
+                        title: Text(
+                          habit.name,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            decoration: habit.isCompleted
+                                ? TextDecoration.lineThrough
+                                : null,
+                          ),
+                        ),
+
                         subtitle: Text(habit.description),
-                        // edit or delete
+
+                        //Edit/Delete Menu
                         trailing: PopupMenuButton<String>(
                           onSelected: (value) {
                             if (value == 'edit') {
@@ -132,10 +153,9 @@ class _HomepageState extends State<Homepage> {
                               habitController.removeHabit(habit.id);
                             }
                           },
-                          itemBuilder: (BuildContext context) => [
-                            const PopupMenuItem(
-                                value: 'edit', child: Text('Edit')),
-                            const PopupMenuItem(
+                          itemBuilder: (BuildContext context) => const [
+                            PopupMenuItem(value: 'edit', child: Text('Edit')),
+                            PopupMenuItem(
                                 value: 'delete', child: Text('Delete')),
                           ],
                         ),
@@ -144,8 +164,8 @@ class _HomepageState extends State<Homepage> {
                   },
                 );
               }),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -14,7 +14,7 @@ class TitleWidget extends StatelessWidget {
       children: [
         Text(
           title,
-          style: GoogleFonts.nunito(fontSize: 44, fontWeight: FontWeight.w700),
+          style: GoogleFonts.nunito(fontSize: 40, fontWeight: FontWeight.w700),
         ),
         GestureDetector(
           onTap: OnTap,
